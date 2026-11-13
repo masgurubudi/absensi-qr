@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<script src="./jsQR.min.js"></script>
 <style>
   :root{
     --bg:#eef2f5; --surface:#ffffff; --surface2:#e3ebf1; --ink:#1c2b36; --ink2:#54687a;
@@ -1620,7 +1620,7 @@ document.getElementById("camStartBtn").addEventListener("click", function(){
   }).catch(function(err){
     var nama = err && err.name ? err.name : "";
     if (nama === "NotAllowedError" || nama === "SecurityError")
-      camStatus("Izin kamera ditolak. Ketuk ikon kamera/gembok di kolom alamat peramban, izinkan kamera untuk halaman ini, lalu ketuk Nyalakan Kamera lagi. Sementara itu cara cadangan (ketuk nama / ketik NIS) tetap bisa dipakai.", true);
+      camStatus("Izin kamera ditolak. Ubah lewat Chrome > titik tiga > Setelan > Setelan situs > Kamera, cari masgurubudi.github.io, pilih Izinkan, lalu ketuk Nyalakan Kamera lagi.", true);
     else if (nama === "NotFoundError" || nama === "OverconstrainedError")
       camStatus("Tidak ditemukan kamera pada perangkat ini. Pakai perangkat lain yang berkamera, atau cara cadangan: ketuk nama siswa / ketik NIS.", true);
     else if (nama === "NotReadableError")
