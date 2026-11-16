@@ -221,6 +221,13 @@
   .tombol-beranda button{background:#4caf50;color:#000;border:none;border-radius:12px;
     padding:18px 20px;padding:clamp(12px,2dvh,18px) 20px;font-size:1.15rem;font-size:clamp(1rem,2.2dvh,1.15rem);font-weight:800;cursor:pointer;box-shadow:0 3px 6px rgba(0,0,0,.25)}
   .tombol-beranda button:active{transform:translateY(1px)}
+  /* Saat isian PIN tampil di beranda, keempat tombol besar disembunyikan. */
+  #view-beranda.pin-aktif .tombol-beranda{display:none}
+  .pin-beranda{background:#fff;border-radius:14px;padding:18px;width:100%;max-width:380px;
+    margin-top:18px;text-align:center;color:#1c2b36;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+  .pin-beranda input{width:100%;text-align:center;font-size:1.3rem;letter-spacing:.4em;border:1.5px solid #c9d6df;border-radius:10px;padding:8px;background:#fff;color:#1c2b36}
+  .pin-beranda .err{color:#b3362b}
+  .pin-beranda .pin-catatan{font-size:.85rem;color:#5a6b7a;margin:8px 0 12px}
   #view-beranda .beranda-kaki{margin-top:auto;padding-top:28px;padding-top:clamp(10px,2dvh,28px);font-style:italic;font-size:.95rem;color:#000}
 
   /* ---------- cetak kartu ---------- */
@@ -265,6 +272,14 @@
       <button type="button" data-goto="guru">&#128202; Rekap Guru</button>
       <button type="button" data-goto="ortu">&#128106;&#8205;&#128105;&#8205;&#128103; Orang Tua</button>
       <button type="button" data-goto="kartu">&#129688; Kartu &amp; QR</button>
+    </div>
+    <div class="pin-beranda hidden" id="pinBeranda">
+      <h3 style="margin-top:0" id="pinBerandaJudul">Masukkan PIN Guru</h3>
+      <p class="pin-catatan">Demo: PIN apa saja bisa dipakai — yang penting diisi.</p>
+      <input id="pinBerandaInput" type="password" placeholder="PIN" aria-label="PIN" />
+      <p class="err" id="pinBerandaErr"></p>
+      <button class="btn" id="pinBerandaBtn" style="width:100%">Buka</button>
+      <button class="btn ghost" id="pinBerandaBatal" style="width:100%;margin-top:8px">Batal</button>
     </div>
     <p class="beranda-kaki">By : Setiyo Budi - 081803394240</p>
   </section>
@@ -553,11 +568,14 @@ function badgeAbsen(abs){
 var records = {};
 var feed = []; /* {teks, jam, jenis} terbaru di depan */
 
-/* ================= VERSI DEMO: LOKAL SAJA, TANPA PIN, TANPA CLOUD =================
+/* ================= VERSI DEMO: LOKAL SAJA, PIN DEMO, TANPA CLOUD =================
    Salinan aplikasi sebenarnya untuk sosialisasi ke sekolah lain, dengan 3 perubahan:
    1. Data: 12 siswa contoh fiktif (NIS 2401-2412, kelas VII A / VIII B / IX C),
       BUKAN data siswa asli SMP Negeri 2 Kebonagung.
-   2. Tanpa PIN: semua menu (Scan, Rekap Guru, Orang Tua, Kartu & QR) terbuka langsung.
+   2. PIN demo: Scan + Rekap Guru memakai PIN Guru, Kartu & QR memakai PIN Super
+      Admin, Orang Tua tanpa PIN — seperti aplikasi sebenarnya, supaya terlihat
+      bahwa menu guru/admin dijaga PIN. Bedanya, PIN apa saja diterima di demo,
+      yang penting diisi.
    3. Tanpa cloud: TIDAK ADA Firebase/Firestore. Setiap catatan (scan 4 mode +
       penandaan Sakit/Izin) LANGSUNG ditulis ke IndexedDB di perangkat ini saja dan
       tidak pernah dikirim ke mana pun. Tidak ada antrean kirim, tidak ada
@@ -855,10 +873,10 @@ function simpanJadwal(){
   var st = document.getElementById("setStatus");
   if (st) st.textContent = "✓ Jadwal tersimpan di perangkat ini (mode demo — hanya berlaku di perangkat ini). Berlaku untuk scan sesudah perubahan ini.";
 }
-/* Pengaturan Jadwal tinggal di halaman Kartu & QR (versi demo: terbuka langsung
-   tanpa PIN, hanya berlaku di perangkat ini). Form dan ID elemennya sama seperti
-   sebelumnya, sehingga isiFormPengaturan() dan simpanJadwal() tidak berubah
-   kecuali penyimpanannya lokal saja. */
+/* Pengaturan Jadwal tinggal di halaman Kartu & QR (versi demo: dijaga PIN Super
+   Admin seperti aplikasi sebenarnya; hanya berlaku di perangkat ini). Form dan ID
+   elemennya sama seperti sebelumnya, sehingga isiFormPengaturan() dan simpanJadwal()
+   tidak berubah kecuali penyimpanannya lokal saja. */
 function buatPengaturanAdmin(){
   if (document.getElementById("pengaturan-admin")) return;
   var kartu = document.getElementById("view-kartu");
@@ -1000,9 +1018,63 @@ function tick(){
 }
 tick(); setInterval(tick, 1000);
 
-/* ================= NAVIGASI + BERANDA (VERSI DEMO: TANPA PIN) =================
-   Semua menu terbuka langsung tanpa PIN — versi demo untuk sosialisasi ke
-   sekolah lain. Tidak ada PIN guru maupun PIN super admin di sini. */
+/* ================= NAVIGASI + BERANDA + PIN (VERSI DEMO) =================
+   Demo: Scan Absensi dan Rekap Guru memakai PIN Guru, Kartu & QR memakai
+   PIN Super Admin, Orang Tua tanpa PIN — seperti aplikasi sebenarnya, supaya
+   sekolah lain melihat bahwa menu guru/admin dijaga PIN. Bedanya, di demo
+   PIN apa saja diterima, yang penting diisi (tidak ada PIN benar/salah).
+   Sekali dibuka dengan PIN, menu itu langsung terbuka sampai sesi halaman
+   ini berakhir (sessionStorage). Kunci sesi memakai nama sendiri
+   (absensiDemoSesi*) supaya tidak bercampur dengan aplikasi sebenarnya. */
+
+var SESI = {guru:false, admin:false};
+try {
+  SESI.guru = sessionStorage.getItem("absensiDemoSesiGuru") === "1";
+  SESI.admin = sessionStorage.getItem("absensiDemoSesiAdmin") === "1";
+} catch(e){}
+function simpanSesi(){
+  try {
+    sessionStorage.setItem("absensiDemoSesiGuru", SESI.guru ? "1" : "0");
+    sessionStorage.setItem("absensiDemoSesiAdmin", SESI.admin ? "1" : "0");
+  } catch(e){}
+}
+function guruBuka(){ return SESI.guru; }
+function adminBuka(){ return SESI.admin; }
+function bolehBuka(nama){
+  if (nama === "ortu") return true;
+  if (nama === "kartu") return adminBuka();
+  return guruBuka();
+}
+var pinTujuan = null, pinJenis = null;
+function mintaPin(jenis, tujuan){
+  pinJenis = jenis; pinTujuan = tujuan;
+  goBeranda();
+  document.getElementById("pinBerandaJudul").textContent =
+    jenis === "admin" ? "Masukkan PIN Super Admin" : "Masukkan PIN Guru";
+  document.getElementById("pinBerandaErr").textContent = "";
+  var inp = document.getElementById("pinBerandaInput");
+  inp.value = "";
+  document.getElementById("view-beranda").classList.add("pin-aktif");
+  document.getElementById("pinBeranda").classList.remove("hidden");
+  inp.focus();
+}
+function cekPinBeranda(){
+  var nilai = document.getElementById("pinBerandaInput").value;
+  /* Demo: PIN apa saja diterima, yang penting diisi. */
+  if (nilai.trim() !== ""){
+    if (pinJenis === "admin") SESI.admin = true; else SESI.guru = true;
+    simpanSesi();
+    document.getElementById("pinBeranda").classList.add("hidden");
+    document.getElementById("view-beranda").classList.remove("pin-aktif");
+    var tujuan = pinTujuan || "scan";
+    pinTujuan = null; pinJenis = null;
+    goView(tujuan);
+  } else {
+    document.getElementById("pinBerandaErr").textContent = "PIN harus diisi.";
+    document.getElementById("pinBerandaInput").value = "";
+    document.getElementById("pinBerandaInput").focus();
+  }
+}
 
 function goBeranda(){
   /* Reset pencari (14 Nov 18.22 WIB): tampilan yang ditinggalkan kembali bersih. */
@@ -1010,6 +1082,9 @@ function goBeranda(){
   if (vAktif && vAktif.id !== "view-beranda") resetPencariView(vAktif.id.replace("view-",""));
   if (typeof matikanKamera === "function" && typeof camStream !== "undefined" && camStream)
     matikanKamera("Kamera dimatikan karena kembali ke beranda. Nyalakan lagi di halaman Scan Absensi bila diperlukan.");
+  document.getElementById("pinBeranda").classList.add("hidden");
+  document.getElementById("pinBerandaErr").textContent = "";
+  document.getElementById("view-beranda").classList.remove("pin-aktif");
   tabBtns.forEach(function(x){ x.setAttribute("aria-selected","false"); });
   document.querySelectorAll("section.view").forEach(function(v){ v.classList.remove("active"); });
   document.getElementById("view-beranda").classList.add("active");
@@ -1017,14 +1092,15 @@ function goBeranda(){
   document.body.classList.remove("tanpa-chip");
   window.scrollTo(0, 0);
 }
-/* Versi demo: semua menu terbuka langsung tanpa PIN. */
 function bukaHalaman(nama){
-  goView(nama);
+  if (bolehBuka(nama)) goView(nama);
+  else mintaPin(nama === "kartu" ? "admin" : "guru", nama);
 }
 var tabBtns = document.querySelectorAll("nav.tabs button");
 tabBtns.forEach(function(b){
   b.addEventListener("click", function(){
     var v = b.getAttribute("data-view");
+    if (!bolehBuka(v)){ mintaPin(v === "kartu" ? "admin" : "guru", v); return; }
     /* Reset pencari (14 Nov 18.22 WIB): tampilan yang ditinggalkan kembali bersih. */
     var aktif = document.querySelector("section.view.active");
     if (aktif && aktif.id !== "view-"+v) resetPencariView(aktif.id.replace("view-",""));
@@ -1071,6 +1147,14 @@ document.querySelectorAll("[data-goto]").forEach(function(b){
 });
 document.querySelectorAll("[data-ke-beranda]").forEach(function(b){
   b.addEventListener("click", function(){ goBeranda(); });
+});
+document.getElementById("pinBerandaBtn").addEventListener("click", cekPinBeranda);
+document.getElementById("pinBerandaInput").addEventListener("keydown", function(e){ if (e.key==="Enter") cekPinBeranda(); });
+document.getElementById("pinBerandaBatal").addEventListener("click", function(){
+  document.getElementById("pinBeranda").classList.add("hidden");
+  document.getElementById("view-beranda").classList.remove("pin-aktif");
+  document.getElementById("pinBerandaErr").textContent = "";
+  pinTujuan = null; pinJenis = null;
 });
 
 /* ================= SCAN ================= */
@@ -1440,7 +1524,8 @@ document.getElementById("manualNis").addEventListener("keydown", function(e){
   if (e.key === "Enter") scanManual();
 });
 
-/* Versi demo: Rekap Guru terbuka langsung tanpa PIN. */
+/* Rekap Guru dijaga PIN Guru lewat prompt di beranda (cekPinBeranda);
+   panel rekap ini sendiri tidak punya gerbang PIN kedua. */
 
 var rekapBtns = document.querySelectorAll("[data-rekap]");
 rekapBtns.forEach(function(b){

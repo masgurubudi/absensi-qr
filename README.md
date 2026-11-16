@@ -6,8 +6,10 @@ dengan aplikasi sebenarnya, dengan 3 perbedaan:
 
 1. **Data contoh, bukan data asli** — 12 siswa fiktif (VII A, VIII B, IX C;
    NIS 2401–2412). Bukan data siswa SMP Negeri 2 Kebonagung.
-2. **Tanpa PIN** — semua menu (Scan Absensi, Rekap Guru, Orang Tua, Kartu & QR)
-   terbuka langsung. Tidak ada PIN guru maupun PIN super admin.
+2. **PIN demo (bukan PIN asli)** — Scan Absensi dan Rekap Guru memakai PIN Guru,
+   Kartu & QR memakai PIN Super Admin, Orang Tua tanpa PIN — seperti aplikasi
+   sebenarnya, supaya terlihat bahwa menu guru/admin dijaga PIN. Bedanya, di
+   demo PIN apa saja diterima, yang penting diisi.
 3. **Tanpa cloud** — tidak ada Firebase/Firestore. Semua catatan hanya tersimpan
    di perangkat yang membuka halaman ini (IndexedDB) dan tidak pernah dikirim
    ke mana pun. Pengaturan Jadwal hanya berlaku di perangkat ini.
