@@ -264,9 +264,9 @@
 
   <!-- ============ BERANDA ============ -->
   <section class="view active" id="view-beranda">
-    <svg class="logo-sekolah" viewBox="0 0 120 120" width="190" height="190" role="img" aria-label="Logo Sekolah Demo" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="58" fill="#43617d"/><circle cx="60" cy="60" r="52" fill="none" stroke="#b98a2f" stroke-width="2"/><path d="M60 34 L96 50 L60 66 L24 50 Z" fill="#ffffff"/><path d="M40 58 v14 c0 6 9 10 20 10 s20-4 20-10 V58 L60 66 Z" fill="#f3e5c3"/><path d="M96 50 v22" stroke="#b98a2f" stroke-width="3" stroke-linecap="round"/><circle cx="96" cy="76" r="4" fill="#b98a2f"/></svg>
+    <svg class="logo-sekolah" viewBox="0 0 120 120" width="190" height="190" role="img" aria-label="Logo Sekolah" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" r="58" fill="#43617d"/><circle cx="60" cy="60" r="52" fill="none" stroke="#b98a2f" stroke-width="2"/><path d="M60 34 L96 50 L60 66 L24 50 Z" fill="#ffffff"/><path d="M40 58 v14 c0 6 9 10 20 10 s20-4 20-10 V58 L60 66 Z" fill="#f3e5c3"/><path d="M96 50 v22" stroke="#b98a2f" stroke-width="3" stroke-linecap="round"/><circle cx="96" cy="76" r="4" fill="#b98a2f"/></svg>
     <h1 class="beranda-judul">Presensi Siswa</h1>
-    <p class="beranda-sub">Sekolah Demo</p>
+    <p class="beranda-sub">Nama Sekolah Anda</p>
     <div class="tombol-beranda">
       <button type="button" data-goto="scan">&#128247; Scan Absensi</button>
       <button type="button" data-goto="guru">&#128202; Rekap Guru</button>
@@ -2071,7 +2071,7 @@ function renderOrtu(s){
   document.getElementById("ortuHasil").innerHTML =
     '<div class="card"><div class="child-head"><div class="avatar">'+inisial+'</div>' +
     '<div><div style="font-weight:800;font-size:1.15rem">'+s.nama+'</div>' +
-    '<div style="color:var(--ink2)">Kelas '+s.kelas+' · NIS <span class="mono">'+s.nis+'</span> · Sekolah Demo</div></div></div>' +
+    '<div style="color:var(--ink2)">Kelas '+s.kelas+' · NIS <span class="mono">'+s.nis+'</span> · Nama Sekolah Anda</div></div></div>' +
     '<div class="today-grid3">'+boxDatang+boxSholat+boxPulang+'</div>' +
     '<p style="margin:0 0 6px">Ringkasan kehadiran bulan ini: hadir <b>'+rb.hadir+' hari</b>, terlambat <b>'+rb.telat+' kali</b>, sakit <b>'+rb.sakit+' hari</b>, izin <b>'+rb.izin+' hari</b>, tidak hadir tanpa keterangan (alpa) <b>'+rb.alpa+' hari</b> dari '+rb.total+' hari sekolah yang sudah berjalan.</p>' +
     '<p style="margin:0">Ringkasan sholat dhuhur bulan ini: sudah sholat <b>'+rs.sudah+' kali</b>, berhalangan <b>'+rs.halangan+' kali</b>, tidak sholat <b>'+rs.tidak+' kali</b>.</p></div>' +
