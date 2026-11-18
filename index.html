@@ -246,7 +246,7 @@
 <body class="beranda-aktif">
 <header class="top">
   <div class="top-in">
-    <div class="school">SMP NEGERI 2 KEBONAGUNG &middot; KABUPATEN PACITAN</div>
+    <div class="school">NAMA SEKOLAH ANDA</div>
     <div class="clockbar">
       <span class="clock"><span id="tglLabel">—</span> &middot; <b id="jamLabel">--:--:--</b> WIB</span>
       <span class="chip-rule" id="chipJadwal">Memuat jadwal&hellip;</span>
@@ -2108,7 +2108,7 @@ function renderKartu(){
     var div = document.createElement("div");
     div.className = "idcard";
     div.setAttribute("data-nis", s.nis);
-    div.innerHTML = '<div class="sch">KARTU SISWA · SMP NEGERI 2 KEBONAGUNG</div>' +
+    div.innerHTML = '<div class="sch">KARTU SISWA · NAMA SEKOLAH ANDA</div>' +
       '<div class="nm"></div><div class="meta"></div><div class="qr"></div>' +
       '<div class="nis">NIS '+s.nis+'</div>' +
       '<button type="button" class="btn dl-one no-print">⬇ Unduh Kartu Ini (PDF)</button>';
@@ -2235,7 +2235,7 @@ function kartuKePdf(ops, x, y, w, h, s, grid){
     ops.push(pdfAngka(px)+" "+pdfAngka(py)+" m "+pdfAngka(px)+" "+pdfAngka(py+ay)+" l S");
   }
   ops.push("0.184 0.282 0.373 rg");
-  pdfTeksTengah(ops, "KARTU SISWA · SMP NEGERI 2 KEBONAGUNG", true, h*0.05, x+w/2, y+h*0.87, w*0.92);
+  pdfTeksTengah(ops, "KARTU SISWA · NAMA SEKOLAH ANDA", true, h*0.05, x+w/2, y+h*0.87, w*0.92);
   ops.push("0.11 0.169 0.212 rg");
   pdfTeksTengah(ops, s.nama, true, h*0.085, x+w/2, y+h*0.73, w*0.92);
   ops.push("0.329 0.408 0.478 rg");
