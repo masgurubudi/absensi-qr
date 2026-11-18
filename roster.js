@@ -1,6 +1,6 @@
 /* Daftar siswa CONTOH (fiktif) untuk versi demo/sosialisasi aplikasi Absensi Siswa QR.
    12 siswa kelas VII A, VIII B, IX C (NIS 2401-2412) — sama seperti prototipe awal.
-   BUKAN data siswa asli SMP Negeri 2 Kebonagung.
+   BUKAN data siswa asli.
    Kolom "qr" adalah isi QR pada Kartu Siswa (format: NIS-NAMA, spasi ditulis +).
    Pemindai mencocokkan NIS dari QR ke roster. */
 window.ROSTER = [{"nis":"2401","nama":"Ahmad Rizky Pratama","kelas":"VII A","qr":"2401-Ahmad+Rizky+Pratama"},{"nis":"2402","nama":"Siti Nurhaliza","kelas":"VII A","qr":"2402-Siti+Nurhaliza"},{"nis":"2403","nama":"Budi Santoso","kelas":"VII A","qr":"2403-Budi+Santoso"},{"nis":"2404","nama":"Dewi Lestari","kelas":"VII A","qr":"2404-Dewi+Lestari"},{"nis":"2405","nama":"Rina Amelia","kelas":"VIII B","qr":"2405-Rina+Amelia"},{"nis":"2406","nama":"Joko Prasetyo","kelas":"VIII B","qr":"2406-Joko+Prasetyo"},{"nis":"2407","nama":"Fitri Rahmawati","kelas":"VIII B","qr":"2407-Fitri+Rahmawati"},{"nis":"2408","nama":"Andi Kurniawan","kelas":"VIII B","qr":"2408-Andi+Kurniawan"},{"nis":"2409","nama":"Maya Putri","kelas":"IX C","qr":"2409-Maya+Putri"},{"nis":"2410","nama":"Dedi Supriadi","kelas":"IX C","qr":"2410-Dedi+Supriadi"},{"nis":"2411","nama":"Intan Permata","kelas":"IX C","qr":"2411-Intan+Permata"},{"nis":"2412","nama":"Rizki Ramadhan","kelas":"IX C","qr":"2412-Rizki+Ramadhan"}];

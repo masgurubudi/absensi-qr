@@ -1,11 +1,11 @@
 # Aplikasi Absensi Siswa QR — Versi Demo (untuk Sosialisasi)
 
-Salinan aplikasi Absensi Siswa QR "Presensi Siswa" (SMP Negeri 2 Kebonagung)
+Salinan aplikasi Absensi Siswa QR "Presensi Siswa" (versi demo untuk sosialisasi ke sekolah lain)
 untuk diperkenalkan ke sekolah lain. Tampilannya dan cara kerjanya persis sama
 dengan aplikasi sebenarnya, dengan 3 perbedaan:
 
 1. **Data contoh, bukan data asli** — 12 siswa fiktif (VII A, VIII B, IX C;
-   NIS 2401–2412). Bukan data siswa SMP Negeri 2 Kebonagung.
+   NIS 2401–2412). Bukan data siswa asli.
 2. **PIN demo (bukan PIN asli)** — Scan Absensi dan Rekap Guru memakai PIN Guru,
    Kartu & QR memakai PIN Super Admin, Orang Tua tanpa PIN — seperti aplikasi
    sebenarnya, supaya terlihat bahwa menu guru/admin dijaga PIN. Bedanya, di
